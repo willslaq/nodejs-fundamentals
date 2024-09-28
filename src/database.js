@@ -35,6 +35,18 @@ export class Database {
     return data;
   }
 
+  update(table, id, data) {
+    this.#database[table] = this.#database[table].map((row) => {
+      if (row.id === id) {
+        row = { id, ...data };
+      }
+
+      return row;
+    });
+
+    this.#persist();
+  }
+
   delete(table, id) {
     const rowIndex = this.#database[table].findIndex((row) => row.id === id);
 
