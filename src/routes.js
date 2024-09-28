@@ -7,59 +7,70 @@ const database = new Database();
 export const routes = [
   {
     method: "GET",
-    path: buildRoutePath("/users"),
+    path: buildRoutePath("/tasks"),
     handler: (request, response) => {
       const { search } = request.query;
 
-      const users = database.select(
-        "users",
+      const tasks = database.select(
+        "tasks",
         search
           ? {
-              name: search,
-              email: search,
+              title: search,
             }
           : null
       );
 
-      return response.end(JSON.stringify(users));
+      return response.end(JSON.stringify(tasks));
     },
   },
   {
     method: "POST",
-    path: buildRoutePath("/users"),
+    path: buildRoutePath("/tasks"),
     handler: (request, response) => {
-      const { name, email } = request.body;
+      const { title, description } = request.body;
 
-      const user = {
+      const tasks = {
         id: randomUUID(),
-        name,
-        email,
+        title,
+        description,
+        completed_at: null,
+        created_at: new Date(),
+        updated_at: new Date(),
       };
 
-      database.insert("users", user);
+      database.insert("tasks", tasks);
 
       return response.writeHead(201).end();
     },
   },
   {
     method: "PUT",
-    path: buildRoutePath("/users/:id"),
+    path: buildRoutePath("/tasks/:id"),
     handler: (request, response) => {
       const { id } = request.params;
-      const { name, email } = request.body;
+      const { title, description } = request.body;
 
-      database.update("users", id, { name, email });
+      const currentTask = database.select("tasks", { id })[0];
+
+      const updatedTask = {
+        ...currentTask,
+        ...(title && { title }),
+        ...(description && { description }),
+        updated_at: new Date(),
+      };
+
+      database.update("tasks", id, updatedTask);
 
       return response.writeHead(204).end();
     },
   },
   {
     method: "DELETE",
-    path: buildRoutePath("/users/:id"),
+    path: buildRoutePath("/tasks/:id"),
     handler: (request, response) => {
       const { id } = request.params;
 
-      database.delete("users", id);
+      database.delete("tasks", id);
 
       return response.writeHead(204).end();
     },
