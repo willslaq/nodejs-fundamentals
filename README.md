@@ -41,4 +41,4 @@ npm run dev
 
 ## Referência
 
- - [Desafio referente ao módulo: Fundamentos do Node.js]([https://docs-rocketseat.notion.site/FullStack-Intermedi-rio-Node-React-b2382e372d1f44f6bfb51a3d7b723dfd](https://efficient-sloth-d85.notion.site/Desafio-01-2d48608f47644519a408b438b52d913f))
+ - [Desafio referente ao módulo: Fundamentos do Node.js](https://efficient-sloth-d85.notion.site/Desafio-01-2d48608f47644519a408b438b52d913f)
